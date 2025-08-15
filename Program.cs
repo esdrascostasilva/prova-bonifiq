@@ -11,7 +11,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<RandomService>();
+// builder.Services.AddSingleton<RandomService>();
+// Alterado o ciclo do objeto para scoped para que a cada requisicao ele gerasse uma instancia diferente do objeto, com isso conseguir
+// gerar os numeros aleatorios para salvar no banco
+builder.Services.AddScoped<RandomService>();
+
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
 var app = builder.Build();
