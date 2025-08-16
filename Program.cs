@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProvaPub.Repository;
 using ProvaPub.Services;
+using ProvaPub.Services.Payments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,11 @@ builder.Services.AddScoped<RandomService>();
 // Registrando os sevicos de DI
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CustomerService>();
+
+// Registrando os DI para os metodos de pagamento
+builder.Services.AddScoped<IPaymentMethod, PixPayment>();
+builder.Services.AddScoped<IPaymentMethod, CreditCardPayment>();
+builder.Services.AddScoped<IPaymentMethod, PaypalPayment>();
 
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
