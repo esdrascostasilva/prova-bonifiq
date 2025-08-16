@@ -16,6 +16,10 @@ builder.Services.AddSwaggerGen();
 // gerar os numeros aleatorios para salvar no banco
 builder.Services.AddScoped<RandomService>();
 
+// Registrando os sevicos de DI
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CustomerService>();
+
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
 var app = builder.Build();
