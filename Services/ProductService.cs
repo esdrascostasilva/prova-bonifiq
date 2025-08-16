@@ -12,7 +12,7 @@ namespace ProvaPub.Services
 			_ctx = ctx;
 		}
 
-		public ProductList  ListProducts(int page, int pageSize)
+		public GenericList<Product> ListProducts(int page, int pageSize)
 		{
 			var query = _ctx.Products;
 			var totalCount = query.Count();
@@ -24,7 +24,7 @@ namespace ProvaPub.Services
 
 			var hasNext = page * pageSize < totalCount;
 
-			return new ProductList() { HasNext = hasNext, TotalCount = totalCount, Products = products };
+			return new GenericList<Product> { HasNext = hasNext, TotalCount = totalCount, Items = products };
 		}
 
 	}
