@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 using ProvaPub.Services;
+using ProvaPub.Services.Payments;
 
 namespace ProvaPub.Controllers
 {
@@ -24,12 +25,27 @@ namespace ProvaPub.Controllers
 		public async Task<Order> PlaceOrder(string paymentMethod, decimal paymentValue, int customerId)
 		{
             var contextOptions = new DbContextOptionsBuilder<TestDbContext>()
-    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Teste;Trusted_Connection=True;")
+    .UseSqlServer(@"Server=localhost; Database=TesteBonifiq; User Id=sa; Password=myPassw0rd; TrustServerCertificate=True")
     .Options;
 
             using var context = new TestDbContext(contextOptions);
 
-            return await new OrderService(context).PayOrder(paymentMethod, paymentValue, customerId);
+            // TODO: melhorar isso
+            var paymentMethods = new List<IPaymentMethod>
+            {
+                new PixPayment(),
+                new CreditCardPayment(),
+                new PaypalPayment()
+            };
+
+            var service = new OrderService(context, paymentMethods);
+            var order = await service.PayOrder(paymentMethod, paymentValue, customerId);
+            
+            // var timeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"); // OS Windows
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo"); // MacOS
+            order.OrderDate = TimeZoneInfo.ConvertTimeFromUtc(order.OrderDate, timeZone);
+
+            return order;
 		}
 	}
 }
