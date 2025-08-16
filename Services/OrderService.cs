@@ -26,7 +26,9 @@ namespace ProvaPub.Services
 
 			return await InsertOrder(new Order() //Retorna o pedido para o controller
 			{
-				Value = paymentValue
+				Value = paymentValue,
+				CustomerId = customerId,
+				OrderDate = DateTime.UtcNow
 			});
 		}
 
