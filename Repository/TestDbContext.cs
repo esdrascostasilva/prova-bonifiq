@@ -30,7 +30,7 @@ namespace ProvaPub.Repository
 			{
 				result.Add(new Customer()
 				{
-					 Id = i+1,
+					Id = i+1,
 					Name = new Faker().Person.FullName,
 				});
 			}
