@@ -13,7 +13,7 @@ namespace ProvaPub.Services
             _ctx = ctx;
         }
 
-        public CustomerList ListCustomers(int page, int pageSize)
+        public GenericList<Customer> ListCustomers(int page, int pageSize)
         {
             var query = _ctx.Customers;
             var totalCount = query.Count();
@@ -25,7 +25,7 @@ namespace ProvaPub.Services
 
             var hasNext = page * pageSize < totalCount;
 
-            return new CustomerList() { HasNext = hasNext, TotalCount = totalCount, Customers = customers };
+            return new GenericList<Customer>() { HasNext = hasNext, TotalCount = totalCount, Items = customers };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)

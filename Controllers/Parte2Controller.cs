@@ -38,7 +38,7 @@ namespace ProvaPub.Controllers
 		}
 
 		[HttpGet("customers")]
-		public CustomerList ListCustomers(int page, int pageSize = 10)
+		public GenericList<Customer> ListCustomers(int page, int pageSize = 10)
 		{
 			
 			return _customerService.ListCustomers(page, pageSize);
