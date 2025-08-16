@@ -13,6 +13,7 @@ namespace ProvaPub.Services
             _ctx = ctx;
         }
 
+        // TODO: Talvez para evitar repeticao desse metodo, criar um helper e chamar aqui. Precisaria pensar mais para implementar isso
         public GenericList<Customer> ListCustomers(int page, int pageSize)
         {
             var query = _ctx.Customers;
